@@ -6,15 +6,14 @@ import { serviceFilterEpisodes } from '../services/filter-episodes-service'
 export const getListEpisodes = async (req: IncomingMessage, res: ServerResponse) => {
     const content = await serviceListEpisodes()
 
-    res.writeHead(200, {'Content-Type': 'application/json'},)
-    res.end(JSON.stringify(content))
+    res.writeHead(content.statusCode, {'Content-Type': 'application/json'},)
+    res.end(JSON.stringify(content.body))
 }
 
 
 export const getFilterEpisodes = async (req: IncomingMessage, res: ServerResponse) => {
-    const queryString = req.url ?.split('?p=')[1] || ""
-    const content = await serviceFilterEpisodes(queryString)
+    const content = await serviceFilterEpisodes(req.url)
 
-    res.writeHead(200, {'Content-Type': 'application/json'})
-    res.end(JSON.stringify(content))
+    res.writeHead(content.statusCode, {'Content-Type': 'application/json'})
+    res.end(JSON.stringify(content.body))
 }
